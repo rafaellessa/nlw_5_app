@@ -44,7 +44,7 @@ export const ButtonIcon = styled(Feather).attrs({
 
 export const Image = styled.Image.attrs({
   source: wateringImage,
-  resizeMode: "contain",
+  resizeMode: "stretch",
 })`
   height: ${Dimensions.get("window").width * 0.7};
 `;

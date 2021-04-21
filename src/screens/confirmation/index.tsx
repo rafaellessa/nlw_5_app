@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 
 import {
@@ -12,6 +13,7 @@ import {
 } from "./styles";
 
 const Confirmation: React.FC = () => {
+  const navigate = useNavigation();
   return (
     <Container>
       <Content>
@@ -22,7 +24,9 @@ const Confirmation: React.FC = () => {
         </SubTitle>
         <FooterContainer>
           <Button
-            onPress={() => {}}
+            onPress={() => {
+              navigate.navigate("PlantSelect");
+            }}
             content={<TitleButton>Começar</TitleButton>}
           />
         </FooterContainer>
