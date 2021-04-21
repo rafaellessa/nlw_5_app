@@ -1,8 +1,8 @@
 import styled from "styled-components/native";
 import colors from "../../utils/colors";
 import HeaderAvatar from "../../components/Header";
-import imageAvatar from "../../assets/avatar.png";
 import fonts from "../../utils/fonts";
+import EnvironmentButton from "../../components/EnvironmentButton";
 
 export const Container = styled.SafeAreaView`
   flex: 1;
@@ -29,3 +29,17 @@ export const SubTitle = styled.Text`
 `;
 
 export const Header = styled(HeaderAvatar)``;
+
+export const Button = styled(EnvironmentButton)``;
+
+export const ContainerList = styled.View``;
+
+export const EnvironmentList = styled.FlatList.attrs({
+  contentContainerStyle: {
+    height: 40,
+    justifyContent: "center",
+    paddingBottom: 5,
+    marginLeft: 32,
+    marginVertical: 32,
+  },
+})``;
