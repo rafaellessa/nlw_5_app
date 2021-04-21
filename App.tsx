@@ -1,19 +1,28 @@
-import React from 'react'
-import Welcome from './src/screens/welcome'
-import UserIdentification from './src/screens/userIdentification'
-import { useFonts, Jost_400Regular, Jost_600SemiBold } from '@expo-google-fonts/jost'
-import AppLoading from 'expo-app-loading'
+import React from "react";
+import {
+  useFonts,
+  Jost_400Regular,
+  Jost_600SemiBold,
+} from "@expo-google-fonts/jost";
+import AppLoading from "expo-app-loading";
+import { NavigationContainer } from "@react-navigation/native";
+import NavigationStack from "./src/navigations/Stack";
 
 const App: React.FC = () => {
-  // eslint-disable-next-line no-empty-pattern
   const [fontsLoaded] = useFonts({
     Jost_400Regular,
-    Jost_600SemiBold
-  })
+    Jost_600SemiBold,
+  });
 
-  if (!fontsLoaded) { return <AppLoading/> }
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
 
-  return <UserIdentification />
-}
+  return (
+    <NavigationContainer>
+      <NavigationStack />
+    </NavigationContainer>
+  );
+};
 
-export default App
+export default App;

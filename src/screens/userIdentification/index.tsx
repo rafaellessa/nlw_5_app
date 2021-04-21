@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 
 import {
@@ -14,19 +15,18 @@ import {
   WrapperContainer,
 } from "./styles";
 
-const userIdentification: React.FC = () => {
+const UserIdentification: React.FC = () => {
+  const navigate = useNavigation();
   const [nameUser, setNameUser] = useState<String>();
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFileed] = useState(false);
 
   const handleInputBlur = () => {
-    console.log("aquiauisaisauisa");
     setIsFocused(false);
     setIsFileed(!!nameUser);
   };
 
   const handleInputFocus = () => {
-    console.log("dofofdfdsofipsoifopsidfdpispofisp");
     setIsFocused(true);
   };
 
@@ -54,7 +54,12 @@ const userIdentification: React.FC = () => {
               onChangeText={handleInputChange}
             />
             <ContainerFooter>
-              <Button content={<TitleButton>Confirmar</TitleButton>} />
+              <Button
+                onPress={() => {
+                  navigate.navigate("Confirmation", {});
+                }}
+                content={<TitleButton>Confirmar</TitleButton>}
+              />
             </ContainerFooter>
           </FormContainer>
         </Content>
@@ -63,4 +68,4 @@ const userIdentification: React.FC = () => {
   );
 };
 
-export default userIdentification;
+export default UserIdentification;
