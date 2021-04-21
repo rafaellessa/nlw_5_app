@@ -1,8 +1,8 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
+import { Keyboard } from "react-native";
 
 import {
-  Container,
   Content,
   FormContainer,
   Emoji,
@@ -13,6 +13,7 @@ import {
   ContainerFooter,
   SafeContainer,
   WrapperContainer,
+  FeedbackContainer,
 } from "./styles";
 
 const UserIdentification: React.FC = () => {
@@ -36,8 +37,12 @@ const UserIdentification: React.FC = () => {
   };
 
   return (
-    <Container>
-      <SafeContainer>
+    <SafeContainer>
+      <FeedbackContainer
+        onPress={() => {
+          Keyboard.dismiss();
+        }}
+      >
         <Content>
           <FormContainer>
             <WrapperContainer>
@@ -63,8 +68,8 @@ const UserIdentification: React.FC = () => {
             </ContainerFooter>
           </FormContainer>
         </Content>
-      </SafeContainer>
-    </Container>
+      </FeedbackContainer>
+    </SafeContainer>
   );
 };
 

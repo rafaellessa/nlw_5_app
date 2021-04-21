@@ -9,12 +9,6 @@ interface StyleProps {
   filled: boolean;
 }
 
-export const Container = styled.SafeAreaView`
-  flex: 1;
-  align-items: center;
-  width: 100%;
-  justify-content: space-around;
-`;
 export const SafeContainer = styled.KeyboardAvoidingView.attrs({
   behavior: Platform.OS === "ios" ? "padding" : "height",
 })`
@@ -73,3 +67,5 @@ export const ContainerFooter = styled.View`
   width: 100%;
   padding-horizontal: 20px;
 `;
+
+export const FeedbackContainer = styled.TouchableWithoutFeedback``;
