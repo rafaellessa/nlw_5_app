@@ -3,6 +3,7 @@ import colors from "../../utils/colors";
 import HeaderAvatar from "../../components/Header";
 import fonts from "../../utils/fonts";
 import EnvironmentButton from "../../components/EnvironmentButton";
+import PlantCardPrimary from "../../components/PlantCardPrimary";
 
 export const Container = styled.SafeAreaView`
   flex: 1;
@@ -32,7 +33,7 @@ export const Header = styled(HeaderAvatar)``;
 
 export const Button = styled(EnvironmentButton)``;
 
-export const ContainerList = styled.View``;
+export const ContainerEnvironmentList = styled.View``;
 
 export const EnvironmentList = styled.FlatList.attrs({
   contentContainerStyle: {
@@ -43,3 +44,15 @@ export const EnvironmentList = styled.FlatList.attrs({
     marginVertical: 32,
   },
 })``;
+
+export const ContainerPlantCardList = styled.View`
+  flex: 1;
+  padding-horizontal: 32px;
+  justify-content: center;
+`;
+
+export const PlantCardList = styled.FlatList.attrs({
+  contentContainerStyle: {},
+})``;
+
+export const PlantCard = styled(PlantCardPrimary)``;

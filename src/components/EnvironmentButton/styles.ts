@@ -20,5 +20,5 @@ export const Button = styled(RectButton)<StyleProps>`
   border-radius: 12px;
   justify-content: center;
   align-items: center;
-  margin-right: 5px;
+  margin-horizontal: 5px;
 `;
