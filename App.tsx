@@ -1,10 +1,18 @@
-import React from "react";
-import { View } from "react-native";
-import Welcome from "./src/screens/welcome";
-import { Container } from "./styles";
+import React from 'react'
+import Welcome from './src/screens/welcome'
+import { useFonts, Jost_400Regular, Jost_600SemiBold } from '@expo-google-fonts/jost'
+import AppLoading from 'expo-app-loading'
 
 const App: React.FC = () => {
-  return <Welcome />;
-};
+  // eslint-disable-next-line no-empty-pattern
+  const [fontsLoaded] = useFonts({
+    Jost_400Regular,
+    Jost_600SemiBold
+  })
 
-export default App;
+  if (!fontsLoaded) { return <AppLoading/> }
+
+  return <Welcome />
+}
+
+export default App
