@@ -9,6 +9,5 @@ export const Container = styled.TouchableOpacity.attrs({
   align-items: center;
   border-radius: 16px;
   margin-bottom: 10px;
-  width: 56px;
   height: 56px;
 `
