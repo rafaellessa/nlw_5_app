@@ -80,9 +80,6 @@ const PlantSelect: React.FC = () => {
     );
 
     if (!data) return setLoadedAll(true);
-    console.log("Page: ", page);
-    console.log("plantas: ", plants);
-    console.log("Data Length: ", data.length);
     if (page > 1) {
       setPlants((oldValue) => [...oldValue, ...data]);
       setFiltredPlants((oldValue) => [...oldValue, ...data]);
@@ -103,8 +100,6 @@ const PlantSelect: React.FC = () => {
   };
 
   function handleFetchMore(distance: number) {
-    console.log("Chegou na função");
-    console.log("Distance: ", distance);
     setLoadingSpinner(true);
     if (distance < 1) {
       return;
