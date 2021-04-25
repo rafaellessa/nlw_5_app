@@ -1,5 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
+import { Alert } from "react-native";
 import { Keyboard } from "react-native";
 
 import {
@@ -61,6 +62,9 @@ const UserIdentification: React.FC = () => {
             <ContainerFooter>
               <Button
                 onPress={() => {
+                  if (!nameUser) {
+                    return Alert.alert("Me diz como chamar você 🥲");
+                  }
                   navigate.navigate("Confirmation", {});
                 }}
                 content={<TitleButton>Confirmar</TitleButton>}

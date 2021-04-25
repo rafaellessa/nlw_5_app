@@ -58,7 +58,6 @@ const PlantSelect: React.FC = () => {
       setEnvironments(await fetchEnvironments());
       setPlants(await fetchPlants());
       setFiltredPlants(await fetchPlants());
-      setLoading(false);
     })();
   }, []);
 
@@ -79,7 +78,17 @@ const PlantSelect: React.FC = () => {
       `plants?_sort=name&order=asc&_page=${page}&_limit=5`
     );
 
-    if (!data) return setLoadedAll(true);
+    if (data.length > 0) {
+      setLoading(false);
+    }
+
+    if (data.length >= 5) {
+      setCanLoadMore(true);
+    } else {
+      setCanLoadMore(false);
+      setLoadingSpinner(false);
+    }
+
     if (page > 1) {
       setPlants((oldValue) => [...oldValue, ...data]);
       setFiltredPlants((oldValue) => [...oldValue, ...data]);
@@ -88,26 +97,14 @@ const PlantSelect: React.FC = () => {
       setFiltredPlants(data);
     }
 
-    setLoadingSpinner(false);
-    setLoadingSpinner(false);
-
-    if (data.length >= 5) {
-      setCanLoadMore(true);
-    }
-
-    console.log("Can load more? ", canLoadMore);
     return data;
   };
 
-  function handleFetchMore(distance: number) {
-    setLoadingSpinner(true);
-    if (distance < 1) {
-      return;
+  function handleFetchMore() {
+    if (canLoadMore) {
+      setPage((oldValue) => oldValue + 1);
+      fetchPlants();
     }
-    setPage((oldValue) => oldValue + 1);
-    fetchPlants();
-    setLoadingSpinner(false);
-
     return;
   }
 
@@ -159,9 +156,9 @@ const PlantSelect: React.FC = () => {
           showsVerticalScrollIndicator={false}
           numColumns={2}
           onEndReachedThreshold={0.1}
-          onEndReached={({ distanceFromEnd }) =>
-            handleFetchMore(distanceFromEnd)
-          }
+          onEndReached={() => {
+            handleFetchMore();
+          }}
           ListFooterComponent={loadingSpinner ? <LoadingSpinner /> : <></>}
         />
       </ContainerPlantCardList>
