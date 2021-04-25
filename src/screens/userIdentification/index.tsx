@@ -2,6 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { Alert } from "react-native";
 import { Keyboard } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import {
   Content,
@@ -19,7 +20,7 @@ import {
 
 const UserIdentification: React.FC = () => {
   const navigate = useNavigation();
-  const [nameUser, setNameUser] = useState<String>();
+  const [nameUser, setNameUser] = useState<string>();
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFileed] = useState(false);
 
@@ -65,7 +66,20 @@ const UserIdentification: React.FC = () => {
                   if (!nameUser) {
                     return Alert.alert("Me diz como chamar você 🥲");
                   }
-                  navigate.navigate("Confirmation", {});
+
+                  try {
+                    AsyncStorage.setItem("@plantmanager:user", nameUser);
+                    navigate.navigate("Confirmation", {
+                      title: "Prontinho",
+                      subTitle:
+                        "Agora vamos começar a cuidar das suas plantinhas com muito cuidado.",
+                      buttonTitle: "Começar",
+                      icon: "smile",
+                      nextScreen: "PlantSelect",
+                    });
+                  } catch {
+                    Alert.alert("Não foi possível salvar o seu nome! 🥲");
+                  }
                 }}
                 content={<TitleButton>Confirmar</TitleButton>}
               />

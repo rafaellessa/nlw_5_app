@@ -1,6 +1,8 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import React, { FunctionComponent } from "react";
 import Confirmation from "../../screens/confirmation";
+import MyPlants from "../../screens/myPlants";
+import PlantSave from "../../screens/plantSave";
 import PlantSelect from "../../screens/plantSelect";
 import UserIdentification from "../../screens/userIdentification";
 import Welcome from "../../screens/welcome";
@@ -27,6 +29,14 @@ export const navigations: RootRouteScreens[] = [
   {
     name: "PlantSelect",
     component: PlantSelect,
+  },
+  {
+    name: "PlantSave",
+    component: PlantSave,
+  },
+  {
+    name: "MyPlants",
+    component: MyPlants,
   },
 ];
 

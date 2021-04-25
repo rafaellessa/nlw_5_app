@@ -16,36 +16,28 @@ import {
   PlantCard,
   LoadingSpinner,
 } from "./styles";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
+import { PlantProps } from "../../libs/storage";
 
 interface EnvironmentsProps {
   key: string;
   title: string;
-}
-
-interface PlantsProps {
-  id: string;
-  name: string;
-  about: string;
-  water_tips: string;
-  photo: string;
-  environments: [string];
-  frequency: {
-    times: number;
-    repeat_every: string;
-  };
 }
 interface renderEnvironmentItemProps {
   item: EnvironmentsProps;
 }
 
 interface renderPlantItemProps {
-  item: PlantsProps;
+  item: PlantProps;
 }
 
 const PlantSelect: React.FC = () => {
+  const navigate = useNavigation();
+  const [userName, setUserName] = useState<string | null>("");
   const [environments, setEnvironments] = useState<EnvironmentsProps[]>([]);
-  const [plants, setPlants] = useState<PlantsProps[]>([]);
-  const [filtredPlants, setFiltredPlants] = useState<PlantsProps[]>([]);
+  const [plants, setPlants] = useState<PlantProps[]>([]);
+  const [filtredPlants, setFiltredPlants] = useState<PlantProps[]>([]);
   const [environmentSelected, setEnvironmentSelected] = useState("all");
   const [loading, setLoading] = useState(true);
   const [loadingSpinner, setLoadingSpinner] = useState(true);
@@ -58,6 +50,7 @@ const PlantSelect: React.FC = () => {
       setEnvironments(await fetchEnvironments());
       setPlants(await fetchPlants());
       setFiltredPlants(await fetchPlants());
+      setUserName(await AsyncStorage.getItem("@plantmanager:user"));
     })();
   }, []);
 
@@ -129,7 +122,14 @@ const PlantSelect: React.FC = () => {
   };
 
   const renderPlantsItem = ({ item }: renderPlantItemProps) => {
-    return <PlantCard data={item} onPress={() => {}} />;
+    return (
+      <PlantCard
+        data={item}
+        onPress={() => {
+          navigate.navigate("PlantSave", { plant: item });
+        }}
+      />
+    );
   };
 
   if (loading) return <Load />;
@@ -137,13 +137,14 @@ const PlantSelect: React.FC = () => {
   return (
     <Container>
       <ContainerHeader>
-        <Header name="Rafael" title="Olá" />
+        <Header name={userName} title="Olá" />
         <Title>Em qual ambiente</Title>
         <SubTitle>você quer colocar sua planta?</SubTitle>
       </ContainerHeader>
       <ContainerEnvironmentList>
         <EnvironmentList
           data={environments}
+          keyExtractor={(item) => String(item.key)}
           renderItem={renderEnvironmentItem}
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -152,6 +153,7 @@ const PlantSelect: React.FC = () => {
       <ContainerPlantCardList>
         <PlantCardList
           data={filtredPlants}
+          keyExtractor={(item) => String(item.id)}
           renderItem={renderPlantsItem}
           showsVerticalScrollIndicator={false}
           numColumns={2}

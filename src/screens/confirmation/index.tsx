@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import React from "react";
 
 import {
@@ -12,22 +12,42 @@ import {
   SubTitle,
 } from "./styles";
 
+interface Params {
+  title: string;
+  subTitle: string;
+  buttonTitle: string;
+  icon: "smile" | "hug";
+  nextScreen: string;
+}
+
+const emojis = {
+  hug: "😛",
+  smile: "😍",
+};
+
 const Confirmation: React.FC = () => {
   const navigate = useNavigation();
+  const routes = useRoute();
+
+  const {
+    title,
+    subTitle,
+    buttonTitle,
+    icon,
+    nextScreen,
+  } = routes.params as Params;
   return (
     <Container>
       <Content>
-        <Emoji>😃</Emoji>
-        <Title>Prontinho</Title>
-        <SubTitle>
-          Agora vamos começar a cuidar das suas plantinhas com muito cuidado
-        </SubTitle>
+        <Emoji>{emojis[icon]}</Emoji>
+        <Title>{title}</Title>
+        <SubTitle>{subTitle}</SubTitle>
         <FooterContainer>
           <Button
             onPress={() => {
-              navigate.navigate("PlantSelect");
+              navigate.navigate(nextScreen, {});
             }}
-            content={<TitleButton>Começar</TitleButton>}
+            content={<TitleButton>{buttonTitle}</TitleButton>}
           />
         </FooterContainer>
       </Content>
