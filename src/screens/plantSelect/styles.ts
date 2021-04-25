@@ -56,3 +56,7 @@ export const PlantCardList = styled.FlatList.attrs({
 })``;
 
 export const PlantCard = styled(PlantCardPrimary)``;
+
+export const LoadingSpinner = styled.ActivityIndicator`
+  color: ${colors.green};
+`;

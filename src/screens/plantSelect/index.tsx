@@ -14,6 +14,7 @@ import {
   PlantCardList,
   EnvironmentList,
   PlantCard,
+  LoadingSpinner,
 } from "./styles";
 
 interface EnvironmentsProps {
@@ -47,6 +48,7 @@ const PlantSelect: React.FC = () => {
   const [filtredPlants, setFiltredPlants] = useState<PlantsProps[]>([]);
   const [environmentSelected, setEnvironmentSelected] = useState("all");
   const [loading, setLoading] = useState(true);
+  const [loadingSpinner, setLoadingSpinner] = useState(true);
   const [page, setPage] = useState(1);
   const [canLoadMore, setCanLoadMore] = useState(true);
   const [loadedAll, setLoadedAll] = useState(false);
@@ -74,19 +76,45 @@ const PlantSelect: React.FC = () => {
 
   const fetchPlants = async () => {
     const { data } = await api.get(
-      `plants?_sort=name&order=asc&page=${page}&_limit=8`
+      `plants?_sort=name&order=asc&_page=${page}&_limit=5`
     );
 
     if (!data) return setLoadedAll(true);
-
+    console.log("Page: ", page);
+    console.log("plantas: ", plants);
+    console.log("Data Length: ", data.length);
     if (page > 1) {
       setPlants((oldValue) => [...oldValue, ...data]);
       setFiltredPlants((oldValue) => [...oldValue, ...data]);
     } else {
-      set;
+      setPlants(data);
+      setFiltredPlants(data);
     }
+
+    setLoadingSpinner(false);
+    setLoadingSpinner(false);
+
+    if (data.length >= 5) {
+      setCanLoadMore(true);
+    }
+
+    console.log("Can load more? ", canLoadMore);
     return data;
   };
+
+  function handleFetchMore(distance: number) {
+    console.log("Chegou na função");
+    console.log("Distance: ", distance);
+    setLoadingSpinner(true);
+    if (distance < 1) {
+      return;
+    }
+    setPage((oldValue) => oldValue + 1);
+    fetchPlants();
+    setLoadingSpinner(false);
+
+    return;
+  }
 
   function handleEnvironmentSelected(environment: string) {
     setEnvironmentSelected(environment);
@@ -135,6 +163,11 @@ const PlantSelect: React.FC = () => {
           renderItem={renderPlantsItem}
           showsVerticalScrollIndicator={false}
           numColumns={2}
+          onEndReachedThreshold={0.1}
+          onEndReached={({ distanceFromEnd }) =>
+            handleFetchMore(distanceFromEnd)
+          }
+          ListFooterComponent={loadingSpinner ? <LoadingSpinner /> : <></>}
         />
       </ContainerPlantCardList>
     </Container>
