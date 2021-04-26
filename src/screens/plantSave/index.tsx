@@ -22,6 +22,7 @@ import {
   Button,
   TimePicker,
   LabelTimePicker,
+  SafeContainer,
 } from "./styles";
 
 interface Params {
@@ -72,40 +73,42 @@ const PlantSave: React.FC = () => {
   }
 
   return (
-    <Container>
-      <Content>
-        <ImagePlant uri={plant.photo} />
-        <NamePlant>{plant.name}</NamePlant>
-        <AboutPlant>{plant.about}</AboutPlant>
-      </Content>
-      <ContainerController>
-        <ContainerTipController>
-          <TipImage />
-          <TipLabel>{plant.water_tips}</TipLabel>
-        </ContainerTipController>
-        <AlertLabel>Escolha o melhor horário para ser lembrado:</AlertLabel>
-        {showDatePicker && (
-          <TimePicker value={selectedDay} onChange={handleChangeTime} />
-        )}
-        {Platform.OS === "android" && (
-          <ContainerTimePickerLabel
-            onPress={() => {
-              setShowDatePicker((oldState) => !oldState);
-            }}
-          >
-            <LabelTimePicker>{`Mudar ${format(
-              selectedDay,
-              "HH:mm"
-            )}`}</LabelTimePicker>
-          </ContainerTimePickerLabel>
-        )}
+    <SafeContainer>
+      <Container>
+        <Content>
+          <ImagePlant uri={plant.photo} />
+          <NamePlant>{plant.name}</NamePlant>
+          <AboutPlant>{plant.about}</AboutPlant>
+        </Content>
+        <ContainerController>
+          <ContainerTipController>
+            <TipImage />
+            <TipLabel>{plant.water_tips}</TipLabel>
+          </ContainerTipController>
+          <AlertLabel>Escolha o melhor horário para ser lembrado:</AlertLabel>
+          {showDatePicker && (
+            <TimePicker value={selectedDay} onChange={handleChangeTime} />
+          )}
+          {Platform.OS === "android" && (
+            <ContainerTimePickerLabel
+              onPress={() => {
+                setShowDatePicker((oldState) => !oldState);
+              }}
+            >
+              <LabelTimePicker>{`Mudar ${format(
+                selectedDay,
+                "HH:mm"
+              )}`}</LabelTimePicker>
+            </ContainerTimePickerLabel>
+          )}
 
-        <Button
-          content={<ButtonLabel>Cadastrar planta</ButtonLabel>}
-          onPress={handleSave}
-        ></Button>
-      </ContainerController>
-    </Container>
+          <Button
+            content={<ButtonLabel>Cadastrar planta</ButtonLabel>}
+            onPress={handleSave}
+          ></Button>
+        </ContainerController>
+      </Container>
+    </SafeContainer>
   );
 };
 

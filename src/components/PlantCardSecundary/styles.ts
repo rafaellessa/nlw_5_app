@@ -2,6 +2,7 @@ import styled from "styled-components/native";
 import { RectButton } from "react-native-gesture-handler";
 import colors from "../../utils/colors";
 import fonts from "../../utils/fonts";
+import { Feather } from "@expo/vector-icons";
 
 export const Container = styled.View``;
 
@@ -15,6 +16,19 @@ export const Button = styled(RectButton)`
   align-items: center;
   background-color: ${colors.shape};
   margin-vertical: 5px;
+`;
+
+export const ButtonRemove = styled(RectButton)`
+  width: 100px;
+  height: 85px;
+  background-color: ${colors.red};
+  margin-top: 15px;
+  border-radius: 20px;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  right: 20px;
+  padding-left: 15;
 `;
 
 export const ContainerDetailsLabel = styled.View`
@@ -41,4 +55,11 @@ export const DetailsTimeLabel = styled.Text`
   font-size: 16px;
   font-family: ${fonts.heading};
   color: ${colors.body_dark};
+`;
+
+export const ButtonRemoveIcon = styled(Feather).attrs({
+  name: "trash",
+  color: colors.white,
+})`
+  font-size: 32px;
 `;

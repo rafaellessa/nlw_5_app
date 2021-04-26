@@ -1,23 +1,29 @@
 import { formatDistance } from "date-fns";
-import { format } from "date-fns/esm";
 import { pt } from "date-fns/locale";
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Alert } from "react-native";
+import Load from "../../components/Loading";
 import PlantCardSecundary from "../../components/PlantCardSecundary";
-import { loadPlants, PlantProps } from "../../libs/storage";
-
+import {
+  loadPlants,
+  PlantProps,
+  removePlant,
+  StoragePlantProps,
+} from "../../libs/storage";
 import {
   Container,
-  Header,
-  ContainerSpotlight,
-  Image,
-  SpotLightLabel,
   ContainerMyPlants,
-  ListContainer,
+  ContainerSpotlight,
+  Header,
+  Image,
   PlantsLabel,
   PlantsList,
+  SpotLightLabel,
 } from "./styles";
+
+interface test {
+  item: PlantProps;
+}
 
 const MyPlants: React.FC = () => {
   const [myPlants, setMyPlants] = useState<PlantProps[]>([]);
@@ -29,6 +35,28 @@ const MyPlants: React.FC = () => {
       await fetchStoragePlants();
     })();
   }, []);
+
+  const handleRemove = async (plant: PlantProps) => {
+    Alert.alert("Remover", `Deseja remover a ${plant.name}?`, [
+      {
+        text: "Não",
+        style: "cancel",
+      },
+      {
+        text: "Sim",
+        onPress: async () => {
+          try {
+            await removePlant(plant.id);
+            setMyPlants((oldData) =>
+              oldData.filter((item) => item.id !== plant.id)
+            );
+          } catch (error) {
+            Alert.alert("Não foi possível remover");
+          }
+        },
+      },
+    ]);
+  };
 
   const fetchStoragePlants = async () => {
     const plantStoraged = await loadPlants();
@@ -46,6 +74,8 @@ const MyPlants: React.FC = () => {
     setMyPlants(plantStoraged);
     setLoading(false);
   };
+
+  if (loading) return <Load />;
   return (
     <Container>
       <Header name="Plantinhas" title="Minhas" />
@@ -59,7 +89,12 @@ const MyPlants: React.FC = () => {
           data={myPlants}
           keyExtractor={(item) => String(item.id)}
           renderItem={({ item }) => {
-            return <PlantCardSecundary data={item} />;
+            return (
+              <PlantCardSecundary
+                data={item}
+                handleRemove={() => handleRemove(item)}
+              />
+            );
           }}
           showsVerticalScrollIndicator={false}
         />

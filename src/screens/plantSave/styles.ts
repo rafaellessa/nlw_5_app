@@ -6,6 +6,15 @@ import colors from "../../utils/colors";
 import fonts from "../../utils/fonts";
 import DateTimePicker, { Event } from "@react-native-community/datetimepicker";
 
+export const SafeContainer = styled.ScrollView.attrs({
+  showsVerticalScrollIndicator: false,
+  contentContainerStyle: {
+    flex: 1,
+    justifyContent: "space-between",
+    backgroundColor: colors.shape,
+  },
+})``;
+
 export const Container = styled.SafeAreaView`
   flex: 1;
   justify-content: space-between;
